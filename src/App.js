@@ -1,25 +1,32 @@
-import logo from './logo.svg';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import { PostContext } from './components/PostContext';
+import HomePage from './pages/HomePage';
+import NewPostPage from './pages/NewPostPage';
+import ViewPostPage from './pages/ViewPostPage';
+import EditPostPage from './pages/EditPostPage';
+
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const [posts, setPosts] = useState([]);
+
+	return (
+   <div className = "App">
+      <div className="wrapper">
+			<PostContext.Provider value={{posts, setPosts}}> 
+				<Routes>
+					<Route path='/' element={<Navigate to='/posts' />} />
+					<Route path='/posts' element={<HomePage />} />
+					<Route exact path='/posts/new' element={<NewPostPage />} />
+					<Route exact path='/posts/:id' element={<ViewPostPage />} />
+					<Route exact path='/posts/:id/edit' element={<EditPostPage />} />
+				</Routes>
+			</PostContext.Provider>
+		</div>
+   </div>
+	);
 }
 
 export default App;
